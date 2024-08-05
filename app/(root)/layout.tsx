@@ -1,4 +1,5 @@
 import LeftSidebar from "@/components/ui/LeftSidebar";
+import RightSidebar from "@/components/ui/RightSidebar";
 
 export default function RootLayout({
     children,
@@ -10,7 +11,7 @@ export default function RootLayout({
             <main className="relative flex bg-black-3">
                 <LeftSidebar />
                 {children}
-                <p className="text-white-1">RIGHT SIDEBAR</p>
+                <RightSidebar />
             </main>
         </div>
     );

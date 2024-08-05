@@ -1,6 +1,5 @@
-import LeftSidebar from "@/components/ui/LeftSidebar";
-import RightSidebar from "@/components/ui/RightSidebar";
-import { podcastData } from "@/constants";
+import LeftSidebar from "@/components/LeftSidebar";
+import RightSidebar from "@/components/RightSidebar";
 import Image from "next/image";
 
 export default function RootLayout({
@@ -17,7 +16,7 @@ export default function RootLayout({
                 >
                     <div className="mx-auto flex w-full max-w-5xl flex-col max-sm:px-4">
                         <div className="flex h-16 items-center justify-between md:hidden">
-                            <Image 
+                            <Image
                                 src="/icons/logo.svg"
                                 width={30}
                                 height={30}
@@ -26,11 +25,6 @@ export default function RootLayout({
                         </div>
                         {children}
                     </div>
-                    {podcastData.map(({id, title, description, imgURL}) => {
-                        return (
-                            <p>hello</p>
-                        )
-                    })}
                 </section>
                 <RightSidebar />
             </main>

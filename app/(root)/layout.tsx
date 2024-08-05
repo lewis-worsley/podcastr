@@ -1,5 +1,6 @@
 import LeftSidebar from "@/components/ui/LeftSidebar";
 import RightSidebar from "@/components/ui/RightSidebar";
+import { podcastData } from "@/constants";
 import Image from "next/image";
 
 export default function RootLayout({
@@ -25,6 +26,11 @@ export default function RootLayout({
                         </div>
                         {children}
                     </div>
+                    {podcastData.map(({id, title, description, imgURL}) => {
+                        return (
+                            <p>hello</p>
+                        )
+                    })}
                 </section>
                 <RightSidebar />
             </main>

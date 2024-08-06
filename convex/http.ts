@@ -20,7 +20,7 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
                 clerkId: event.data.id,
                 email: event.data.email_addresses[0].email_address,
                 imageUrl: event.data.image_url,
-                name: event.data.first_name!,
+                name: event.data.first_name ?? "No Name",
             });
             break;
         case "user.updated":
@@ -40,6 +40,7 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
         status: 200,
     });
 });
+
 
 const http = httpRouter();
 

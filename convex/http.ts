@@ -41,7 +41,6 @@ const handleClerkWebhook = httpAction(async (ctx, request) => {
     });
 });
 
-
 const http = httpRouter();
 
 http.route({

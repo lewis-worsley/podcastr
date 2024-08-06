@@ -25,6 +25,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
+import { useState } from "react"
 
 const voiceCategories = [
     'alloy',
@@ -42,6 +43,7 @@ const formSchema = z.object({
 })
 
 const CreatePodcast = () => {
+    const [voiceType, setVoiceType] = useState<string | null>(null)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -86,18 +88,18 @@ const CreatePodcast = () => {
                             <Label className="text-16 font-bold text-white-1">
                                 Select AI Voice
                             </Label>
-                            <Select>
+                            <Select onValueChange={(value) => setVoiceType(value)}>
                                 <SelectTrigger className={cn('text-16 w-full border-none bg-black-1 text-gray-1')}>
                                     <SelectValue
                                         placeholder="Select AI Voice"
                                         className="placeholder:text-gray-1"
                                     />
                                 </SelectTrigger>
-                                <SelectContent 
+                                <SelectContent
                                     className="text-16 border-none bg-black-1 font-bold text-white-1 focus:ring-orange-1"
                                 >
                                     {voiceCategories.map((category) => (
-                                        <SelectItem 
+                                        <SelectItem
                                             key={category}
                                             value={category}
                                             className="capitalize focus:bg-orange-1"
@@ -106,6 +108,13 @@ const CreatePodcast = () => {
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
+                                {voiceType && (
+                                    <audio
+                                        src={`/${voiceType}.mp3`}
+                                        autoPlay
+                                        hidden
+                                    />
+                                )}
                             </Select>
 
                         </div>

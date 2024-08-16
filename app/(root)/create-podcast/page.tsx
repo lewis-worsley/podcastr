@@ -89,11 +89,11 @@ const CreatePodcast = () => {
                             name="podcastTitle"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col gap-2.5">
-                                    <FormLabel className="text-16 font-bold text-white-1">Username</FormLabel>
+                                    <FormLabel className="text-16 font-bold text-white-1">Title</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="JSM Pro Podcast"
-                                            className="input-class focus-visible:ring-orange-1"
+                                            className="input-class focus-visible:ring-offset-orange-1"
                                             {...field} />
                                     </FormControl>
                                     <FormMessage className="text-white-1" />
@@ -105,7 +105,9 @@ const CreatePodcast = () => {
                                 Select AI Voice
                             </Label>
                             <Select onValueChange={(value) => setVoiceType(value)}>
-                                <SelectTrigger className={cn('text-16 w-full border-none bg-black-1 text-gray-1')}>
+                                <SelectTrigger 
+                                    className={cn('text-16 w-full border-none bg-black-1 text-gray-1 focus-visible:ring-offset-orange-1')}
+                                >
                                     <SelectValue
                                         placeholder="Select AI Voice"
                                         className="placeholder:text-gray-1"
@@ -141,7 +143,7 @@ const CreatePodcast = () => {
                                     <FormLabel className="text-16 font-bold text-white-1">Description</FormLabel>
                                     <FormControl>
                                         <Textarea 
-                                            className="input-class focus-visible:ring-orange-1"
+                                            className="input-class focus-visible:ring-offset-orange-1"
                                             placeholder="Write a short podcast description"
                                             {...field}
                                         />

@@ -18,6 +18,8 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
 
     const getPodcastAudio = useAction(api.openai.generateAudioAction)
 
+    const getAudioUrl = useMutation(api.podcasts.getUrl)
+
     const generatePodcast = async () => {
         setIsGenerating(true);
         setAudio('');
@@ -37,6 +39,15 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
             const fileName = `podcast-${uuidv4()}.mp3`;
             const file = new File([blob], fileName, { type: 'audio/mpeg' });
 
+            const uploaded = await startUpload([file]);
+            const storageId = (uploaded[0].response as any).storageId;
+
+            setAudioStorageId(storageId);
+
+            const audioURL = await getAudioUrl({ storageId });
+            setAudio(audioURL!);
+            setIsGenerating(false);
+            // todo: show success message
 
         } catch (error) {
             console.error('Error generating podcast', error)

@@ -10,8 +10,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { generateUploadUrl } from '@/convex/files';
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 
+import { toast, useToast } from './ui/use-toast';
+
 const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageId }: GeneratePodcastProps) => {
     const [isGenerating, setIsGenerating] = useState(false);
+    const { toast } = useToast();
 
     const generateUploadUrl = useMutation(api.files.generateUploadUrl)
     const { startUpload } = useUploadFiles(generateUploadUrl);
@@ -25,9 +28,11 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
         setAudio('');
 
         if (!voicePrompt) {
-            // todo: show error message
+            toast({
+                title: "Please select a voiceType to generate a podcast!",
+            });
             return setIsGenerating(false);
-        }
+        };
 
         try {
             const response = await getPodcastAudio({
@@ -47,10 +52,15 @@ const useGeneratePodcast = ({ setAudio, voiceType, voicePrompt, setAudioStorageI
             const audioURL = await getAudioUrl({ storageId });
             setAudio(audioURL!);
             setIsGenerating(false);
-            // todo: show success message
-
+            toast({
+                title: "Podcast generated successfully!",
+            });
         } catch (error) {
-            console.error('Error generating podcast', error)
+            console.error('Error creating a podcast:', error)
+            toast({
+                title: "Error creating a podcast",
+                variant: "destructive",
+            });
             setIsGenerating(false);
         }
     }
@@ -80,6 +90,7 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
                 <Button
                     type='submit'
                     className='text-16 bg-orange-1 py-4 font-bold text-white-1'
+                    onClick={generatePodcast}
                 >
                     {isGenerating ? (
                         <>

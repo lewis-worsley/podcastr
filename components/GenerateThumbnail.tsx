@@ -7,6 +7,11 @@ import { Loader } from 'lucide-react'
 import { GenerateThumbnailProps } from '@/types'
 import { Input } from './ui/input'
 import Image from 'next/image'
+import { useToast } from './ui/use-toast'
+import { useUploadFiles } from '@xixixao/uploadstuff/react'
+import { generateUploadUrl } from '@/convex/files'
+import { useMutation } from 'convex/react'
+import { api } from '@/convex/_generated/api'
 
 const GenerateThumbnail = ({
     setImage,
@@ -18,9 +23,53 @@ const GenerateThumbnail = ({
     const [isAiThumbnail, setIsAiThumbnail] = useState(false);
     const [isImageLoading, setIsImageLoading] = useState(false);
     const imageRef = useRef<HTMLInputElement>(null);
+    const { toast } = useToast();
 
-    const generateImage = async () => {
+    const generateUploadUrl = useMutation(api.files.generateUploadUrl)
+    const { startUpload } = useUploadFiles(generateUploadUrl)
+    const getImageUrl = useMutation(api.podcasts.getUrl)
 
+    const handleImage = async (blob: Blob, filename: string) => {
+        setIsImageLoading(true);
+        setImage('');
+
+        try {
+            const file = new File([blob], filename, { type: "image/png" });
+            const uploaded = await startUpload([file]);
+            const storageId = (uploaded[0].response as any).storageId;
+
+            setImageStorageId(storageId)
+
+            const imageUrl = await getImageUrl({ storageId });
+            setImage(imageUrl!);
+            setIsImageLoading(false);
+            toast({
+                title: "Thumbnail generated successfully!"
+            });
+        } catch (error) {
+            console.error(error);
+            toast({
+                title: "Error generating thumbnail", variant: "destructive"
+            });
+        };
+    };
+
+    const generateImage = async () => { };
+    const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+
+        try {
+            const files = e.target.files;
+            if (!files) return;
+            const file = files[0];
+            const blob = await file.arrayBuffer().then((ab) => new Blob([ab]));
+            handleImage(blob, file.name)
+        } catch (error) {
+            console.error(error);
+            toast({
+                title: "Error uploading image", variant: "destructive"
+            })
+        }
     };
 
     return (
@@ -80,33 +129,45 @@ const GenerateThumbnail = ({
                 </div>
             ) : (
                 <div className='image_div' onClick={() => imageRef?.current?.click()}>
-                <Input 
-                    type='file'
-                    className='hidden'
-                    ref={imageRef}
-                />
-                {!isImageLoading ? (
-                    <Image 
-                        src="/icons/upload-image.svg"
-                        alt='upload'
-                        width={40}
-                        height={40}
+                    <Input
+                        type='file'
+                        className='hidden'
+                        ref={imageRef}
+                        onChange={(e) => uploadImage(e)}
                     />
-                ) : (
-                    <div className='text-16 flex-center font-medium text-white-1'>
-                        Uploading
-                        <Loader size={20} className='animate-spin ml-2' />
+                    {!isImageLoading ? (
+                        <Image
+                            src="/icons/upload-image.svg"
+                            alt='upload'
+                            width={40}
+                            height={40}
+                        />
+                    ) : (
+                        <div className='text-16 flex-center font-medium text-white-1'>
+                            Uploading
+                            <Loader size={20} className='animate-spin ml-2' />
+                        </div>
+                    )}
+                    <div className='flex flex-col items-center gap-1'>
+                        <h2 className='text-12 font-bold text-orange-1'>
+                            Click to upload
+                        </h2>
+                        <p className='text-12 font-normal text-gray-1'>
+                            SVG, PNG, JPG, or GIF (max. 1080x1080px)
+                        </p>
                     </div>
-                )}
-                <div className='flex flex-col items-center gap-1'>
-                    <h2 className='text-12 font-bold text-orange-1'>
-                        Click to upload
-                    </h2>
-                    <p className='text-12 font-normal text-gray-1'>
-                        SVG, PNG, JPG, or GIF (max. 1080x1080px)
-                    </p>
                 </div>
-            </div>
+            )}
+            {image && (
+                <div className='flex-center w-full'>
+                    <Image
+                        src={image}
+                        width={200}
+                        height={200}
+                        className='mt-5'
+                        alt='thumbnail'
+                    />
+                </div>
             )}
         </>
     )

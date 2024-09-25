@@ -46,6 +46,8 @@ const formSchema = z.object({
     podcastDescription: z.string().min(2),
 });
 
+console.log("testing connection")
+
 const CreatePodcast = () => {
     const [imagePrompt, setImagePrompt] = useState('');
     const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(null);

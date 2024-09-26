@@ -1,8 +1,7 @@
-import { EmptyStateProps } from '@/types'
-import Image from 'next/image'
-import React from 'react'
-import { Button } from './ui/button'
-import Link from 'next/link'
+import { EmptyStateProps } from '@/types';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from './ui/button';
 
 const EmptyState = ({ title, search, buttonLink, buttonText }: EmptyStateProps) => {
     return (

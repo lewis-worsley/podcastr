@@ -3,24 +3,29 @@
 import EmptyState from '@/components/EmptyState';
 import LoaderSpinner from '@/components/LoaderSpinner';
 import PodcastCard from '@/components/PodcastCard';
-import { api } from '@/convex/_generated/api'
-import { Id } from '@/convex/_generated/dataModel'
-import { useQuery } from 'convex/react'
-import Image from 'next/image'
-import React from 'react'
+import PodcastDetailPlayer from '@/components/PodcastDetailPlayer';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import { useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import Image from 'next/image';
 
 const PodcastDetails = ({ params: { podcastId } }: { params: { podcastId: Id<'podcasts'> } }) => {
-    const podcast = useQuery(api.podcasts.getPodcastById, { podcastId })
-    const similarPodcasts = useQuery(api.podcasts.getPodcastByVoiceType, { podcastId })
+    const podcast = useQuery(api.podcasts.getPodcastById, { podcastId });
+    const similarPodcasts = useQuery(api.podcasts.getPodcastByVoiceType, { podcastId });
 
-    if (!similarPodcasts || !podcast) return <LoaderSpinner />
+    const { user } = useUser();
+
+    const isOwner = user?.id === podcast?.authorId;
+
+    if (!similarPodcasts || !podcast) return <LoaderSpinner />;
 
     return (
         <section className='flex w-full flex-col'>
             <header className='mt-9 flex items-center justify-between'>
-                <h1 className='text-20 font-bold text-white-1'>
+                <div className='text-20 font-bold text-white-1'>
                     Currently Playing
-                </h1>
+                </div>
                 <figure className='flex gap-3'>
                     <Image
                         src="/icons/headphone.svg"
@@ -33,6 +38,11 @@ const PodcastDetails = ({ params: { podcastId } }: { params: { podcastId: Id<'po
                     </div>
                 </figure>
             </header>
+            <PodcastDetailPlayer 
+                isOwner={isOwner}
+                podcastId={podcast._id}
+                {...podcast}
+            />
             <p className='text-white-2 text-16 pb-8 pt-[45px] font-medium max-md:text-center'>
                 {podcast?.podcastDescription}
             </p>
@@ -48,11 +58,11 @@ const PodcastDetails = ({ params: { podcastId } }: { params: { podcastId: Id<'po
             </div>
             <section className='mt-8 flex flex-col gap-5'>
                 <h2 className='text-18 font-bold text-white-1'>Similar Podcasts</h2>
-                {similarPodcasts && similarPodcasts.length > 
-                0 ? (
+                {similarPodcasts && similarPodcasts.length >
+                    0 ? (
                     <div className='podcast_grid'>
                         {similarPodcasts.map(({ _id, podcastTitle, podcastDescription, imageUrl }) => (
-                            <PodcastCard 
+                            <PodcastCard
                                 key={_id}
                                 imgUrl={imageUrl!}
                                 title={podcastTitle}
@@ -63,7 +73,7 @@ const PodcastDetails = ({ params: { podcastId } }: { params: { podcastId: Id<'po
                     </div>
                 ) : (
                     <>
-                        <EmptyState 
+                        <EmptyState
                             title="No similiar podcasts found"
                             buttonLink="/discover"
                             buttonText="Discover more podcasts"

@@ -9,7 +9,7 @@ type headerProps = {
 
 export const Header = ({ headerTitle, titleClassName }: headerProps ) => {
     return (
-        <header className='flex items-center justify-between mb-2'>
+        <header className='flex items-center justify-between mb-4'>
             {headerTitle ? (
                 <h2 className={cn('text-18 font-bold text-white-1', titleClassName)}>
                     {headerTitle}

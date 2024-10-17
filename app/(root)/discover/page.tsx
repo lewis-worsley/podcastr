@@ -6,10 +6,9 @@ import PodcastCard from '@/components/PodcastCard';
 import SearchBar from '@/components/SearchBar';
 import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
-import React from 'react';
 
-const Discover = () => {
-    const podcastsData = useQuery(api.podcasts.getPodcastBySearch, { search: "" })
+const Discover = ({ searchParams: { search } }: { searchParams: { search: string } }) => {
+    const podcastsData = useQuery(api.podcasts.getPodcastBySearch, { search: search || "" })
 
     return (
         <div className='flex flex-col gap-9'>

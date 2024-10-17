@@ -85,7 +85,7 @@ const PodcastPlayer = () => {
             setIsPlaying(true);
         }
     }, [audio]);
-    
+
     const handleLoadedMetadata = () => {
         if (audioRef.current) {
             setDuration(audioRef.current.duration);
@@ -105,7 +105,7 @@ const PodcastPlayer = () => {
             <Progress
                 value={(currentTime / duration) * 100}
                 className="w-full"
-                max={duration}
+                max={duration > 0 ? duration : 100}
             />
             <section className="glassmorphism-black flex h-[112px] items-center justify-between px-4 max-md:justify-center max-md:gap-5 md:px-12">
                 <audio

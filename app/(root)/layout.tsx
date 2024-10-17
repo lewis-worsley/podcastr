@@ -1,4 +1,5 @@
 import LeftSidebar from "@/components/LeftSidebar";
+import MobileNav from "@/components/MobileNav";
 import PodcastPlayer from "@/components/PodcastPlayer";
 import RightSidebar from "@/components/RightSidebar";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,10 +21,11 @@ export default function RootLayout({
                         <div className="flex h-16 items-center justify-between md:hidden">
                             <Image
                                 src="/icons/logo.svg"
-                                width={30}
-                                height={30}
+                                width={23}
+                                height={27}
                                 alt="menu icon"
                             />
+                            <MobileNav />
                         </div>
                         <div className="flex flex-col md:pb-14">
                             <Toaster />

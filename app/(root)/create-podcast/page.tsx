@@ -128,7 +128,7 @@ const CreatePodcast = () => {
                                     <FormLabel className="text-16 font-bold text-white-1">Title</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="JSM Pro Podcast"
+                                            placeholder="Podcast Title"
                                             className="input-class focus-visible:ring-offset-orange-1"
                                             {...field} />
                                     </FormControl>

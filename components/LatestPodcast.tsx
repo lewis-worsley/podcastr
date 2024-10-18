@@ -87,7 +87,7 @@ const LatestPodcast = ({ imgUrl, title, duration, views, audioUrl, index, podcas
                     />
                 </div>
             </div>
-            <div className='glassmorphism border-2 border-grayd-1'></div>
+            <hr />
         </div>
     )
 }

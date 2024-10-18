@@ -37,7 +37,7 @@ const LatestPodcast = ({ imgUrl, title, duration, views, audioUrl, index, podcas
         <div className='cursor-pointer text-white-1'>
             <div className='flex flex-row items-center my-5 justify-between'>
                 <div className='flex items-center gap-5'>
-                    <p>{index + 1}</p>
+                    <p className='hidden lg:block'>{index + 1}</p>
                     <Image 
                         src="/icons/play.svg"
                         width={24}
@@ -52,13 +52,13 @@ const LatestPodcast = ({ imgUrl, title, duration, views, audioUrl, index, podcas
                             width={50}
                             height={50}
                             alt={title}
-                            className='aspect-square h-fit w-full rounded-lg 2xl:size-[50px]'
+                            className='aspect-square h-fit rounded-lg size-[50px]'
                         />
                         <h2 className='text-16 truncate font-bold text-white-1'>{title}</h2>
                     </figure>
                 </div>
                 <div className='flex gap-20'>
-                    <figure className='flex gap-3'>
+                    <figure className='gap-3 hidden lg:flex'>
                         <Image
                             src="/icons/headphone.svg"
                             width={24}
@@ -69,7 +69,7 @@ const LatestPodcast = ({ imgUrl, title, duration, views, audioUrl, index, podcas
                             {views}
                         </div>
                     </figure>
-                    <figure className='flex gap-3'>
+                    <figure className='gap-3 hidden md:flex'>
                         <Image
                             src="/icons/watch.svg"
                             width={24}

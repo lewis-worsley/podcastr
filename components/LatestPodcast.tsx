@@ -37,12 +37,13 @@ const LatestPodcast = ({ imgUrl, title, duration, views, audioUrl, index, podcas
         <div className='cursor-pointer text-white-1'>
             <div className='flex flex-row items-center my-5 justify-between'>
                 <div className='flex items-center gap-5'>
+                    <p>{index + 1}</p>
                     <Image 
                         src="/icons/play.svg"
                         width={24}
                         height={24}
                         alt='Play'
-                        className='cursor-pointer hover:bg-orange-1'
+                        className='cursor-pointer'
                         onClick={handlePlay}
                     />
                     <figure className='flex gap-5 items-center' onClick={handleViews}>

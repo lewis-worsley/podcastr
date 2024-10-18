@@ -8,12 +8,14 @@ import {
 } from "@/components/ui/sheet";
 import { sidebarLinks } from '@/constants';
 import { cn } from '@/lib/utils';
+import { useUser } from "@clerk/nextjs";
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const MobileNav = () => {
     const pathname = usePathname();
+    const { user, isSignedIn } = useUser();
 
     return (
         <section>
@@ -27,9 +29,9 @@ const MobileNav = () => {
                         className='cursor-pointer'
                     />
                 </SheetTrigger>
-                <SheetContent 
-                    side="left" 
-                    className='border-none bg-black-1' 
+                <SheetContent
+                    side="left"
+                    className='border-none bg-black-1'
                     aria-describedby="Navigation menu; the following links include Home, Discover and Create Podcast"
                 >
                     <SheetClose asChild>
@@ -63,6 +65,24 @@ const MobileNav = () => {
                                     </SheetClose>
                                 )
                             })}
+                            <SheetClose asChild>
+                                {isSignedIn && (
+                                    <Link
+                                        href={`/profile/${user.id}`}
+                                        className={cn('flex gap-3 items-center py-4 max-lg:px-4  lg:justify-start', {
+                                            'bg-nav-focus border-r-4 border-orange-1': pathname.startsWith("/profile/")
+                                        })}
+                                    >
+                                        <Image
+                                            src="/icons/profile.svg"
+                                            alt="profile icon"
+                                            width={24}
+                                            height={24}
+                                        />
+                                        <p>Profile</p>
+                                    </Link>
+                                )}
+                            </SheetClose>
                         </nav>
                     </div>
                 </SheetContent>

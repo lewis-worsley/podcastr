@@ -1,7 +1,6 @@
-import { PodcastCardProps } from '@/types'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { PodcastCardProps } from '@/types';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const PodcastCard = ({ title, description, imgUrl, podcastId }: PodcastCardProps) => {
     const router = useRouter();
@@ -10,7 +9,7 @@ const PodcastCard = ({ title, description, imgUrl, podcastId }: PodcastCardProps
         router.push(`/podcasts/${podcastId}`, {
             scroll: true,
         })
-    }
+    };
 
     return (
         <div className='cursor-pointer' onClick={handleViews}>
